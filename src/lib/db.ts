@@ -1,16 +1,18 @@
-import sql from 'mssql';
+import sql from 'mssql'
+import dotenv from 'dotenv'
+dotenv.config()
 
 const config: sql.config = {
-  user: 'sa',
-  password: 'Alfafoto01',
-  server: 'localhost',
-  database: 'ProSigaDevDb',
-  port: 1434, // Porta identificada anteriormente
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  server: process.env.DB_SERVER!,
+  database: process.env.DB_NAME,
+  port: Number(process.env.DB_PORT),
   options: {
-    encrypt: false, // Para conexão local
+    encrypt: false,
     trustServerCertificate: true
   }
-};
+}
 
 let pool: sql.ConnectionPool | null = null;
 
