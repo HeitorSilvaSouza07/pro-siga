@@ -1,7 +1,9 @@
+//api simples para funcionamento da aplicação na parte de usuarios 
 import { NextResponse } from 'next/server';
 import { getDb } from '@/src/lib/db';
 import sql from 'mssql';
 
+//função para buscar todos os usuarios
 export async function GET() {
   try {
     const pool = await getDb();
@@ -12,6 +14,7 @@ export async function GET() {
   }
 }
 
+//função para criar um usuario
 export async function POST(req: Request) {
   try {
     const { nameUser, materiaUser } = await req.json();

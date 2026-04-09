@@ -1,7 +1,9 @@
+//api simples para funcionamento da aplicação na parte de atividades 
 import { NextResponse } from 'next/server';
 import { getDb } from '@/src/lib/db';
 import sql from 'mssql';
 
+//função para buscar todas as atividades
 export async function GET() {
   try {
     const pool = await getDb();
@@ -19,6 +21,7 @@ export async function GET() {
   }
 }
 
+//função para criar uma atividade
 export async function POST(req: Request) {
   try {
     const { idUser, nameAtv, dataEntrega, typeAtv } = await req.json();
