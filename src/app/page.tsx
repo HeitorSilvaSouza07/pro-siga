@@ -133,69 +133,70 @@ export default function Home() {
 
   return (
     <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>
-      <h1>Gerenciador ProSiga</h1>
+      <h1 className='flex justify-center font-bold text-purple-500 mb-2'>Gerenciador ProSiga</h1>
 
       {error && (
         <div style={{ border: '2px solid red', padding: '10px', color: 'red', marginBottom: '20px' }}>
           <strong>ERRO DE CONEXÃO COM O BANCO:</strong>
           <pre>{error}</pre>
-          <button onClick={fetchData}>Tentar Novamente</button>
+          <button onClick={fetchData} >Tentar Novamente</button>
         </div>
       )}
-
+<div className='flex gap-3 justify-center' >
       <section>
-        <h2>Cadastrar Usuário</h2>
+        <h2 className='text-purple-500 font-bold mb-2'>Cadastrar Usuário</h2>
         <form onSubmit={handleCreateUsuario}>
-          <input placeholder="Nome do Usuário" value={nameUser} onChange={e => setNameUser(e.target.value)} required />
-          <input placeholder="Matéria" value={materiaUser} onChange={e => setMateriaUser(e.target.value)} required />
-          <button type="submit">Cadastrar</button>
+          <input className='rounded bg-gray-200 mr-1' placeholder="Nome do Usuário" value={nameUser} onChange={e => setNameUser(e.target.value)} required />
+          <input className='rounded bg-gray-200 mr-1' placeholder="Matéria" value={materiaUser} onChange={e => setMateriaUser(e.target.value)} required />
+          <button type="submit" className='bg-purple-700 text-white rounded-lg font-bold  pd-2 px-2 py-1 mt-3'>Cadastrar</button>
         </form>
       </section>
 
-      <hr />
+      
 
-      <section>
-        <h2>Cadastrar Atividade</h2>
+      <section className=' '>
+        <h2 className='text-purple-500 font-bold mb-2'>Cadastrar Atividade</h2>
         <form onSubmit={handleCreateAtividade}>
-          <input placeholder="Descrição/Nome" value={nameAtv} onChange={e => setNameAtv(e.target.value)} required />
-          <input type="datetime-local" value={dataEntrega} onChange={e => setDataEntrega(e.target.value)} required />
-          <select value={typeAtv} onChange={e => setTypeAtv(Number(e.target.value))}>
+          <input className='rounded bg-gray-200 mr-1' placeholder="Descrição/Nome" value={nameAtv} onChange={e => setNameAtv(e.target.value)} required />
+          <input className='rounded bg-gray-200 mr-1' type="datetime-local" value={dataEntrega} onChange={e => setDataEntrega(e.target.value)} required />
+          <select className='rounded bg-gray-200 mr-1' value={typeAtv} onChange={e => setTypeAtv(Number(e.target.value))}>
             <option value={0}>Atividade</option>
             <option value={1}>Prova</option>
           </select>
-          <select value={idUser} onChange={e => setIdUser(e.target.value)} required>
+          <select className='rounded bg-gray-200' value={idUser} onChange={e => setIdUser(e.target.value)} required>
             <option value="">Selecione o Responsável</option>
             {usuarios.map(u => (
               <option key={u.idUser} value={u.idUser}>{u.nameUser}</option>
             ))}
           </select>
-          <button type="submit">Cadastrar Atividade</button>
+          <button type="submit" className='bg-purple-700 text-white rounded-lg font-bold  pd-2 px-2 py-1 mt-3'>Cadastrar Atividade</button>
         </form>
       </section>
+</div>
+      
 
-      <hr />
-
-      <section>
-        <h2>Lista de Atividades</h2>
-        <p>Visão: 
-          <button onClick={() => setFilterMode('day')} style={{ fontWeight: filterMode === 'day' ? 'bold' : 'normal' }}>Dia</button>
-          <button onClick={() => setFilterMode('week')} style={{ fontWeight: filterMode === 'week' ? 'bold' : 'normal' }}>Semana</button>
-          <button onClick={() => setFilterMode('month')} style={{ fontWeight: filterMode === 'month' ? 'bold' : 'normal' }}>Mês</button>
-        </p>
+      <section className='mt-5'>
+        <h2 className='flex justify-center font-bold text-purple-500 mb-2'>Lista de Atividades</h2>
+        <div className='flex justify-center gap-2'>
+        <p className='flex justify-center gap-2 text-purple-700 font-bold '>Visão: </p>
+          <button className='bg-purple-500 rounded-lg px-4 py-1' onClick={() => setFilterMode('day')} style={{ fontWeight: filterMode === 'day' ? 'bold' : 'normal' }}>Dia</button>
+          <button className='bg-purple-500 rounded-lg px-4 py-1' onClick={() => setFilterMode('week')} style={{ fontWeight: filterMode === 'week' ? 'bold' : 'normal' }}>Semana</button>
+          <button className='bg-purple-500 rounded-lg px-4 py-1' onClick={() => setFilterMode('month')} style={{ fontWeight: filterMode === 'month' ? 'bold' : 'normal' }}>Mês</button>
+        </div>
 
         {loading ? <p>Carregando...</p> : (
-          <table border={1} style={{ width: '100%', textAlign: 'left' }}>
+          <table className=' mt-5' border={1} style={{ width: '100%', textAlign: 'left' }}>
             <thead>
-              <tr>
-                <th>Nome/Descrição</th>
-                <th>Data</th>
-                <th>Tipo</th>
-                <th>Responsável</th>
+              <tr className='gap-2'>
+                <th className='bg-purple-700 text-white font-bold  pd-2 px-2 py-1 '>Nome/Descrição</th>
+                <th className='bg-purple-500 text-white font-bold  pd-2 px-2 py-1'>Data</th>
+                <th className='bg-purple-700 text-white font-bold  pd-2 px-2 py-1'>Tipo</th>
+                <th className='bg-purple-500 text-white font-bold  pd-2 px-2 py-1'>Responsável</th>
               </tr>
             </thead>
             <tbody>
               {filteredAtividades.length === 0 ? (
-                <tr><td colSpan={4}>Nenhuma atividade encontrada para este período.</td></tr>
+                <tr><td colSpan={4} className='flex font-bold text-purple-500 mt-3'>Nenhuma atividade encontrada para este período. |=</td></tr>
               ) : filteredAtividades.map(atv => (
                 <tr key={atv.idAtv}>
                   <td>{atv.nameAtv}</td>
