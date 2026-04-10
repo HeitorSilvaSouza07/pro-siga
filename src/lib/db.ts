@@ -1,6 +1,4 @@
 import sql from 'mssql'
-import dotenv from 'dotenv'
-dotenv.config()
 
 
 //configuração de conexão com o banco de dados, crie o banco com o 
