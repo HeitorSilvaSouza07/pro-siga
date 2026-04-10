@@ -132,81 +132,91 @@ export default function Home() {
   });
 
   return (
-    <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>
-      <h1 className='flex justify-center font-bold text-purple-500 mb-2'>Gerenciador ProSiga</h1>
+    <div>
+      <div className='flex justify-center font-mono'>
+        <h1 className='text-purple-800 text-3xl font-extrabold'>Pro</h1>
+        <h1 className='text-purple-400 text-3xl font-bold'>Siga</h1>
+      </div>
+      <h2 className='font-bold text-purple-600 flex justify-center '>Atividades | Provas | Organização</h2>
 
+      <div className='flex justify-center mt-2'>
       {error && (
-        <div style={{ border: '2px solid red', padding: '10px', color: 'red', marginBottom: '20px' }}>
+        <div className='bg-red-300 rounded-lg p-5 w-[80%] h-auto '>
           <strong>ERRO DE CONEXÃO COM O BANCO:</strong>
           <pre>{error}</pre>
           <button onClick={fetchData} >Tentar Novamente</button>
         </div>
       )}
-<div className='flex gap-3 justify-center' >
-      <section>
-        <h2 className='text-purple-500 font-bold mb-2'>Cadastrar Usuário</h2>
-        <form onSubmit={handleCreateUsuario}>
-          <input className='rounded bg-gray-200 mr-1' placeholder="Nome do Usuário" value={nameUser} onChange={e => setNameUser(e.target.value)} required />
-          <input className='rounded bg-gray-200 mr-1' placeholder="Matéria" value={materiaUser} onChange={e => setMateriaUser(e.target.value)} required />
-          <button type="submit" className='bg-purple-700 text-white rounded-lg font-bold  pd-2 px-2 py-1 mt-3'>Cadastrar</button>
-        </form>
-      </section>
+      </div>
+      <div className='flex justify-center gap-5 mt-5'>
+        <section className='bg-purple-300 w-[45%] py-6 rounded-lg  flex flex-col align-center'>
+          <h2 className='font-bold text-purple-600 flex justify-center text-2xl font-bold'>Cadastrar Usuário</h2>
+          <form onSubmit={handleCreateUsuario} className='flex flex-col items-center w-full'>
+            <input className='border border-purple-600 bg-purple-200 rounded-lg p-2 w-[80%] mt-2 outline-none focus:ring-2 focus:ring-purple-600' placeholder="Nome do Usuário" value={nameUser} onChange={e => setNameUser(e.target.value)} required />
+            <input className='border border-purple-600 bg-purple-200 rounded-lg p-2 w-[80%] mt-2 outline-none focus:ring-2 focus:ring-purple-600' placeholder="Matéria" value={materiaUser} onChange={e => setMateriaUser(e.target.value)} required />
+            <button type="submit" className='bg-purple-600 text-white p-2 rounded-lg w-[50%] mt-4 transition-all duration-300 hover:bg-purple-700 cursor-pointer hover:scale-105 font-bold shadow-md'>Cadastrar</button>
+          </form>
+        </section>
 
-      
+        <section className='bg-purple-300 w-[45%] py-6 rounded-lg flex flex-col '>
+          <h2 className='font-bold text-purple-600 flex justify-center text-2xl font-bold'>Cadastrar Atividade</h2>
+          <form onSubmit={handleCreateAtividade} className='flex flex-col items-center w-full'>
+            <input className='border border-purple-600 bg-purple-200 rounded-lg p-2 w-[80%] mt-2 outline-none focus:ring-2 focus:ring-purple-600' placeholder="Descrição/Nome" value={nameAtv} onChange={e => setNameAtv(e.target.value)} required />
+            <input className='border border-purple-600 bg-purple-200 rounded-lg p-2 w-[80%] mt-2 outline-none focus:ring-2 focus:ring-purple-600' type="datetime-local" value={dataEntrega} onChange={e => setDataEntrega(e.target.value)} required />
+            <select className='border border-purple-600 bg-purple-200 rounded-lg p-2 w-[80%] mt-2 outline-none focus:ring-2 focus:ring-purple-600' value={typeAtv} onChange={e => setTypeAtv(Number(e.target.value))}>
+              <option value={0}>Atividade</option>
+              <option value={1}>Prova</option>
+            </select>
+            <select className='border border-purple-600 bg-purple-200 rounded-lg p-2 w-[80%] mt-2 outline-none focus:ring-2 focus:ring-purple-600' value={idUser} onChange={e => setIdUser(e.target.value)} required>
+              <option value="">Selecione o Responsável</option>
+              {usuarios.map(u => (
+                <option key={u.idUser} value={u.idUser}>{u.nameUser}</option>
+              ))}
+            </select>
+            <button type="submit" className='bg-purple-600 text-white rounded-lg p-2 w-[50%] mt-4 transition-all duration-300 hover:bg-purple-700 cursor-pointer hover:scale-105 font-bold shadow-md'>Cadastrar Atividade</button>
+          </form>
+        </section>
+      </div>
 
-      <section className=' '>
-        <h2 className='text-purple-500 font-bold mb-2'>Cadastrar Atividade</h2>
-        <form onSubmit={handleCreateAtividade}>
-          <input className='rounded bg-gray-200 mr-1' placeholder="Descrição/Nome" value={nameAtv} onChange={e => setNameAtv(e.target.value)} required />
-          <input className='rounded bg-gray-200 mr-1' type="datetime-local" value={dataEntrega} onChange={e => setDataEntrega(e.target.value)} required />
-          <select className='rounded bg-gray-200 mr-1' value={typeAtv} onChange={e => setTypeAtv(Number(e.target.value))}>
-            <option value={0}>Atividade</option>
-            <option value={1}>Prova</option>
-          </select>
-          <select className='rounded bg-gray-200' value={idUser} onChange={e => setIdUser(e.target.value)} required>
-            <option value="">Selecione o Responsável</option>
-            {usuarios.map(u => (
-              <option key={u.idUser} value={u.idUser}>{u.nameUser}</option>
-            ))}
-          </select>
-          <button type="submit" className='bg-purple-700 text-white rounded-lg font-bold  pd-2 px-2 py-1 mt-3'>Cadastrar Atividade</button>
-        </form>
-      </section>
-</div>
-      
-
-      <section className='mt-5'>
-        <h2 className='flex justify-center font-bold text-purple-500 mb-2'>Lista de Atividades</h2>
-        <div className='flex justify-center gap-2'>
-        <p className='flex justify-center gap-2 text-purple-700 font-bold '>Visão: </p>
-          <button className='bg-purple-500 rounded-lg px-4 py-1' onClick={() => setFilterMode('day')} style={{ fontWeight: filterMode === 'day' ? 'bold' : 'normal' }}>Dia</button>
-          <button className='bg-purple-500 rounded-lg px-4 py-1' onClick={() => setFilterMode('week')} style={{ fontWeight: filterMode === 'week' ? 'bold' : 'normal' }}>Semana</button>
-          <button className='bg-purple-500 rounded-lg px-4 py-1' onClick={() => setFilterMode('month')} style={{ fontWeight: filterMode === 'month' ? 'bold' : 'normal' }}>Mês</button>
+      <section className='p-2'>
+        <h2 className='flex text-purple-900 justify-center font-extrabold text-2xl'>Lista de Atividades</h2>
+        <p className='flex justify-center font-bold text-1xl text-purple-700'>Visão: </p>
+        <div className='flex gap-5 justify-center'>
+          
+          <button className='bg-purple-600 mt-2 text-white p-2 rounded-lg w-[20%] transition-all duration-300 hover:bg-purple-700 cursor-pointer' onClick={() => setFilterMode('day')}>Dia</button>
+          <button className='bg-purple-600 text-white p-2 rounded-lg w-[20%] transition-all duration-300 hover:bg-purple-700 cursor-pointer' onClick={() => setFilterMode('week')}>Semana</button>
+          <button className='bg-purple-600 text-white p-2 rounded-lg w-[20%] transition-all duration-300 hover:bg-purple-700 cursor-pointer' onClick={() => setFilterMode('month')}>Mês</button>
         </div>
 
-        {loading ? <p>Carregando...</p> : (
-          <table className=' mt-5' border={1} style={{ width: '100%', textAlign: 'left' }}>
-            <thead>
-              <tr className='gap-2'>
-                <th className='bg-purple-700 text-white font-bold  pd-2 px-2 py-1 '>Nome/Descrição</th>
-                <th className='bg-purple-500 text-white font-bold  pd-2 px-2 py-1'>Data</th>
-                <th className='bg-purple-700 text-white font-bold  pd-2 px-2 py-1'>Tipo</th>
-                <th className='bg-purple-500 text-white font-bold  pd-2 px-2 py-1'>Responsável</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredAtividades.length === 0 ? (
-                <tr><td colSpan={4} className='flex font-bold text-purple-500 mt-3'>Nenhuma atividade encontrada para este período. |=</td></tr>
-              ) : filteredAtividades.map(atv => (
-                <tr key={atv.idAtv}>
-                  <td>{atv.nameAtv}</td>
-                  <td>{new Date(atv.dataEntrega).toLocaleString()}</td>
-                  <td>{atv.typeAtv ? 'Prova' : 'Atividade'}</td>
-                  <td>{atv.nameUser}</td>
+        {loading ? <p className='text-center mt-5 font-bold text-purple-600'>Carregando...</p> : (
+          <div className='overflow-x-auto w-full mt-8 flex justify-center pb-10'>
+            <table className='w-[90%] bg-white shadow-xl rounded-xl overflow-hidden text-center border-collapse'>
+              <thead className='bg-purple-600 text-white'>
+                <tr>
+                  <th className='py-4 px-4 uppercase font-semibold text-sm tracking-wider'>Nome/Descrição</th>
+                  <th className='py-4 px-4 uppercase font-semibold text-sm tracking-wider'>Data</th>
+                  <th className='py-4 px-4 uppercase font-semibold text-sm tracking-wider'>Tipo</th>
+                  <th className='py-4 px-4 uppercase font-semibold text-sm tracking-wider'>Responsável</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className='text-gray-700'>
+                {filteredAtividades.length === 0 ? (
+                  <tr><td colSpan={4} className='py-8 font-semibold text-purple-500'>Nenhuma atividade encontrada para este período.</td></tr>
+                ) : filteredAtividades.map((atv, index) => (
+                  <tr key={atv.idAtv} className={`border-b border-purple-100 transition-colors ${index % 2 === 0 ? 'bg-purple-50 hover:bg-purple-100' : 'bg-white hover:bg-purple-100'}`}>
+                    <td className='py-4 px-4 font-medium'>{atv.nameAtv}</td>
+                    <td className='py-4 px-4 text-sm'>{new Date(atv.dataEntrega).toLocaleString()}</td>
+                    <td className='py-4 px-4'>
+                      <span className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${atv.typeAtv ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'}`}>
+                        {atv.typeAtv ? 'Prova' : 'Atividade'}
+                      </span>
+                    </td>
+                    <td className='py-4 px-4 font-semibold text-purple-900'>{atv.nameUser}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
       </section>
     </div>
