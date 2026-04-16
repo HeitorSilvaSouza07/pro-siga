@@ -1,7 +1,6 @@
 //api simples para funcionamento da aplicação na parte de atividades 
 import { NextResponse } from 'next/server';
 import { getDb } from '@/src/lib/db';
-import sql from 'mssql';
 
 //função para buscar todas as atividades
 export async function GET() {
@@ -14,8 +13,8 @@ export async function GET() {
       INNER JOIN tblUsuarios u ON a.idUser = u.idUser
       ORDER BY a.dataEntrega ASC
     `;
-    const result = await pool.request().query(query);
-    return NextResponse.json(result.recordset);
+    const [rows] = await pool.execute(query);
+    return NextResponse.json(rows);
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
@@ -27,18 +26,16 @@ export async function POST(req: Request) {
     const { idUser, nameAtv, dataEntrega, typeAtv } = await req.json();
     const pool = await getDb();
     
-    await pool.request()
-      .input('idUser', sql.Int, idUser)
-      .input('nameAtv', sql.VarChar, nameAtv)
-      .input('dataEntrega', sql.DateTime, new Date(dataEntrega))
-      .input('typeAtv', sql.Bit, typeAtv)
-      .query(`
+    await pool.execute(`
         INSERT INTO tblAtividades (idUser, nameAtv, dataEntrega, typeAtv) 
-        VALUES (@idUser, @nameAtv, @dataEntrega, @typeAtv)
-      `);
+        VALUES (?, ?, ?, ?)
+      `,
+      [idUser, nameAtv, new Date(dataEntrega), typeAtv ? 1 : 0]
+    );
     
     return NextResponse.json({ message: 'Atividade criada com sucesso' });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    console.log(err)
+    return NextResponse.json(err);
   }
 }
