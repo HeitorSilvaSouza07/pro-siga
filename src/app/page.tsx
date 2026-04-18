@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import logoImg from '../img/image.png';
 
 export default function Home() {
   const [usuarios, setUsuarios] = useState<any[]>([]);
@@ -133,11 +134,18 @@ export default function Home() {
 
   return (
     <div>
-      <div className='flex justify-center font-mono'>
-        <h1 className='text-purple-800 text-3xl font-extrabold'>Pro</h1>
-        <h1 className='text-purple-400 text-3xl font-bold'>Siga</h1>
+      <div className='flex justify-center mt-12 mb-4'>
+        <div className="relative group cursor-pointer transition-transform duration-500 hover:scale-110">
+          <img 
+            src={logoImg.src} 
+            alt="Logo do Projeto" 
+            className="w-48 h-48 object-contain drop-shadow-[0_15px_25px_rgba(126,34,206,0.5 rounded-lg "  
+          />
+        </div>
       </div>
-      <h2 className='font-bold text-purple-600 flex justify-center '>Atividades | Provas | Organização</h2>
+      <h2 className='font-bold text-purple-700 flex justify-center tracking-widest text-sm uppercase mb-10 opacity-80'>
+        Atividades <span className="mx-3 text-pink-500">|</span> Provas <span className="mx-3 text-pink-500">|</span> Organização
+      </h2>
 
       <div className='flex justify-center mt-2'>
       {error && (
@@ -149,7 +157,7 @@ export default function Home() {
       )}
       </div>
       <div className='flex justify-center gap-5 mt-5'>
-        <section className='bg-purple-300 w-[45%] py-6 rounded-lg  flex flex-col align-center'>
+        <section className='bg-purple-300 w-[45%] py-6 rounded-lg  flex flex-col align-center hover:scale-101 transition-all duration-300 hover:bg-purple-400'>
           <h2 className='font-bold text-purple-600 flex justify-center text-2xl font-bold'>Cadastrar Usuário</h2>
           <form onSubmit={handleCreateUsuario} className='flex flex-col items-center w-full'>
             <input className='border border-purple-600 bg-purple-200 rounded-lg p-2 w-[80%] mt-2 outline-none focus:ring-2 focus:ring-purple-600' placeholder="Nome do Usuário" value={nameUser} onChange={e => setNameUser(e.target.value)} required />
@@ -158,7 +166,7 @@ export default function Home() {
           </form>
         </section>
 
-        <section className='bg-purple-300 w-[45%] py-6 rounded-lg flex flex-col '>
+        <section className='bg-purple-300 w-[45%] py-6 rounded-lg flex flex-col hover:scale-101 transform-all duration-300 hover:bg-purple-400'>
           <h2 className='font-bold text-purple-600 flex justify-center text-2xl font-bold'>Cadastrar Atividade</h2>
           <form onSubmit={handleCreateAtividade} className='flex flex-col items-center w-full'>
             <input className='border border-purple-600 bg-purple-200 rounded-lg p-2 w-[80%] mt-2 outline-none focus:ring-2 focus:ring-purple-600' placeholder="Descrição/Nome" value={nameAtv} onChange={e => setNameAtv(e.target.value)} required />
@@ -181,11 +189,11 @@ export default function Home() {
       <section className='p-2'>
         <h2 className='flex text-purple-900 justify-center font-extrabold text-2xl'>Lista de Atividades</h2>
         <p className='flex justify-center font-bold text-1xl text-purple-700'>Visão: </p>
-        <div className='flex gap-5 justify-center'>
+        <div className='flex gap-5 justify-center mt-2 '>
           
-          <button className='bg-purple-600 mt-2 text-white p-2 rounded-lg w-[20%] transition-all duration-300 hover:bg-purple-700 cursor-pointer' onClick={() => setFilterMode('day')}>Dia</button>
-          <button className='bg-purple-600 text-white p-2 rounded-lg w-[20%] transition-all duration-300 hover:bg-purple-700 cursor-pointer' onClick={() => setFilterMode('week')}>Semana</button>
-          <button className='bg-purple-600 text-white p-2 rounded-lg w-[20%] transition-all duration-300 hover:bg-purple-700 cursor-pointer' onClick={() => setFilterMode('month')}>Mês</button>
+          <button className='bg-purple-600 text-white p-2 rounded-lg w-[20%] transition-all duration-300 hover:bg-purple-700 cursor-pointer hover:scale-101 transitio-all duration-300' onClick={() => setFilterMode('day')}>Dia</button>
+          <button className='bg-purple-600 text-white p-2 rounded-lg w-[20%] transition-all duration-300 hover:bg-purple-700 cursor-pointer hover:scale-101 transitio-all duration-300' onClick={() => setFilterMode('week')}>Semana</button>
+          <button className='bg-purple-600 text-white p-2 rounded-lg w-[20%] transition-all duration-300 hover:bg-purple-700 cursor-pointer hover:scale-101 transitio-all duration-300' onClick={() => setFilterMode('month')}>Mês</button>
         </div>
 
         {loading ? <p className='text-center mt-5 font-bold text-purple-600'>Carregando...</p> : (
