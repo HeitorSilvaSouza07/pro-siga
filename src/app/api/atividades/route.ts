@@ -17,7 +17,7 @@ export async function GET() {
     const result = await pool.request().query(query);
     return NextResponse.json(result.recordset);
   } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    return NextResponse.json( { status: 500 });
   }
 }
 
