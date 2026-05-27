@@ -1,6 +1,6 @@
 //api simples para funcionamento da aplicação na parte de usuarios 
 import { NextResponse } from 'next/server';
-import { getDb } from '@/src/lib/db';
+import { getDb } from '../../../lib/db';
 
 //função para buscar todos os usuarios
 export async function GET() {

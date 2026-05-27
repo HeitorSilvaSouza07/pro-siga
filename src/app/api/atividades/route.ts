@@ -1,6 +1,6 @@
 //api simples para funcionamento da aplicação na parte de atividades 
 import { NextResponse } from 'next/server';
-import { getDb } from '@/src/lib/db';
+import { getDb } from '@/lib/db';
 
 //função para buscar todas as atividades
 export async function GET() {
@@ -35,7 +35,7 @@ export async function POST(req: Request) {
     
     return NextResponse.json({ message: 'Atividade criada com sucesso' });
   } catch (err: any) {
-    console.log(err)
-    return NextResponse.json(err);
+    console.error(err);
+    return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }

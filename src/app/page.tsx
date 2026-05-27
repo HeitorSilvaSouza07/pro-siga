@@ -1,232 +1,110 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import logoImg from '../img/image.png';
+import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import logoImg from '../img/image 11.png';
+import heroImg from '../img/image 1.png';
+import professorImg from '../img/image 8.png';
+import studentImg from '../img/image 9.png';
 
 export default function Home() {
-  const [usuarios, setUsuarios] = useState<any[]>([]);
-  const [atividades, setAtividades] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [filterMode, setFilterMode] = useState('day'); // 'day', 'week', 'month'
-  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
-  // Form Usuário
-  const [nameUser, setNameUser] = useState('');
-  const [materiaUser, setMateriaUser] = useState('');
-
-  // Form Atividade
-  const [idUser, setIdUser] = useState('');
-  const [nameAtv, setNameAtv] = useState('');
-  const [dataEntrega, setDataEntrega] = useState('');
-  const [typeAtv, setTypeAtv] = useState(0); // 0=atv, 1=prova
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
-    try {
-      setError(null);
-      const [resU, resA] = await Promise.all([
-        fetch('/api/usuarios'),
-        fetch('/api/atividades')
-      ]);
-
-      const dataU = await resU.json();
-      const dataA = await resA.json();
-
-      if (!resU.ok) {
-        setError(`Erro Usuários: ${dataU.error || 'Erro desconhecido'}`);
-        return;
-      }
-      if (!resA.ok) {
-        setError(`Erro Atividades: ${dataA.error || 'Erro desconhecido'}`);
-        return;
-      }
-
-      setUsuarios(Array.isArray(dataU) ? dataU : []);
-      setAtividades(Array.isArray(dataA) ? dataA : []);
-    } catch (err: any) {
-      console.error('Erro ao buscar dados:', err);
-      setError('Falha crítica na conexão com a API local.');
-    } finally {
-      setLoading(false);
-    }
+  const handleStartClick = () => {
+    router.push('/dashboard/atividades');
   };
-
-  const handleCreateUsuario = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      const res = await fetch('/api/usuarios', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nameUser, materiaUser })
-      });
-      const result = await res.json();
-      if (res.ok) {
-        setNameUser('');
-        setMateriaUser('');
-        fetchData();
-      } else {
-        alert('Erro: ' + (result.error || 'Falha ao criar usuário'));
-      }
-    } catch (err) {
-      alert('Erro de conexão ao criar usuário');
-    }
-  };
-
-  const handleCreateAtividade = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      const res = await fetch('/api/atividades', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ idUser: Number(idUser), nameAtv, dataEntrega, typeAtv: Number(typeAtv) })
-      });
-      const result = await res.json();
-      if (res.ok) {
-        setNameAtv('');
-        setDataEntrega('');
-        setIdUser('');
-        fetchData();
-      } else {
-        alert('Erro: ' + (result.error || 'Falha ao criar atividade'));
-      }
-    } catch (err) {
-      alert('Erro de conexão ao criar atividade');
-    }
-  };
-
-  const isCurrentDay = (date: Date) => {
-    const today = new Date();
-    return date.getDate() === today.getDate() &&
-           date.getMonth() === today.getMonth() &&
-           date.getFullYear() === today.getFullYear();
-  };
-
-  const isCurrentWeek = (date: Date) => {
-    const today = new Date();
-    // Ajuste simples de semana (domingo a sábado)
-    const startOfWeek = new Date(today);
-    startOfWeek.setDate(today.getDate() - today.getDay());
-    startOfWeek.setHours(0, 0, 0, 0);
-
-    const endOfWeek = new Date(startOfWeek);
-    endOfWeek.setDate(startOfWeek.getDate() + 6);
-    endOfWeek.setHours(23, 59, 59, 999);
-
-    return date >= startOfWeek && date <= endOfWeek;
-  };
-
-  const isCurrentMonth = (date: Date) => {
-    const today = new Date();
-    return date.getMonth() === today.getMonth() &&
-           date.getFullYear() === today.getFullYear();
-  };
-
-  const filteredAtividades = (Array.isArray(atividades) ? atividades : []).filter(atv => {
-    const date = new Date(atv.dataEntrega);
-    if (filterMode === 'day') return isCurrentDay(date);
-    if (filterMode === 'week') return isCurrentWeek(date);
-    if (filterMode === 'month') return isCurrentMonth(date);
-    return true;
-  });
 
   return (
-    <div>
-      <div className='flex justify-center mt-12 mb-4'>
-        <div className="relative group cursor-pointer transition-transform duration-500 hover:scale-110">
-          <img 
-            src={logoImg.src} 
-            alt="Logo do Projeto" 
-            className="w-48 h-48 object-contain drop-shadow-[0_15px_25px_rgba(126,34,206,0.5 rounded-lg "  
-          />
-        </div>
-      </div>
-      <h2 className='font-bold text-purple-700 flex justify-center tracking-widest text-sm uppercase mb-10 opacity-80'>
-        Atividades <span className="mx-3 text-pink-500">|</span> Provas <span className="mx-3 text-pink-500">|</span> Organização
-      </h2>
-
-      <div className='flex justify-center mt-2'>
-      {error && (
-        <div className='bg-red-300 rounded-lg p-5 w-[80%] h-auto '>
-          <strong>ERRO DE CONEXÃO COM O BANCO:</strong>
-          <pre>{error}</pre>
-          <button onClick={fetchData} >Tentar Novamente</button>
-        </div>
-      )}
-      </div>
-      <div className='flex justify-center gap-5 mt-5'>
-        <section className='bg-purple-300 w-[45%] py-6 rounded-lg  flex flex-col align-center hover:scale-101 transition-all duration-300 hover:bg-purple-400'>
-          <h2 className='font-bold text-purple-600 flex justify-center text-2xl font-bold'>Cadastrar Usuário</h2>
-          <form onSubmit={handleCreateUsuario} className='flex flex-col items-center w-full'>
-            <input className='border border-purple-600 bg-purple-200 rounded-lg p-2 w-[80%] mt-2 outline-none focus:ring-2 focus:ring-purple-600' placeholder="Nome do Usuário" value={nameUser} onChange={e => setNameUser(e.target.value)} required />
-            <input className='border border-purple-600 bg-purple-200 rounded-lg p-2 w-[80%] mt-2 outline-none focus:ring-2 focus:ring-purple-600' placeholder="Matéria" value={materiaUser} onChange={e => setMateriaUser(e.target.value)} required />
-            <button type="submit" className='bg-purple-600 text-white p-2 rounded-lg w-[50%] mt-4 transition-all duration-300 hover:bg-purple-700 cursor-pointer hover:scale-105 font-bold shadow-md'>Cadastrar</button>
-          </form>
-        </section>
-
-        <section className='bg-purple-300 w-[45%] py-6 rounded-lg flex flex-col hover:scale-101 transform-all duration-300 hover:bg-purple-400'>
-          <h2 className='font-bold text-purple-600 flex justify-center text-2xl font-bold'>Cadastrar Atividade</h2>
-          <form onSubmit={handleCreateAtividade} className='flex flex-col items-center w-full'>
-            <input className='border border-purple-600 bg-purple-200 rounded-lg p-2 w-[80%] mt-2 outline-none focus:ring-2 focus:ring-purple-600' placeholder="Descrição/Nome" value={nameAtv} onChange={e => setNameAtv(e.target.value)} required />
-            <input className='border border-purple-600 bg-purple-200 rounded-lg p-2 w-[80%] mt-2 outline-none focus:ring-2 focus:ring-purple-600' type="datetime-local" value={dataEntrega} onChange={e => setDataEntrega(e.target.value)} required />
-            <select className='border border-purple-600 bg-purple-200 rounded-lg p-2 w-[80%] mt-2 outline-none focus:ring-2 focus:ring-purple-600' value={typeAtv} onChange={e => setTypeAtv(Number(e.target.value))}>
-              <option value={0}>Atividade</option>
-              <option value={1}>Prova</option>
-            </select>
-            <select className='border border-purple-600 bg-purple-200 rounded-lg p-2 w-[80%] mt-2 outline-none focus:ring-2 focus:ring-purple-600' value={idUser} onChange={e => setIdUser(e.target.value)} required>
-              <option value="">Selecione o Responsável</option>
-              {usuarios.map(u => (
-                <option key={u.idUser} value={u.idUser}>{u.nameUser}</option>
-              ))}
-            </select>
-            <button type="submit" className='bg-purple-600 text-white rounded-lg p-2 w-[50%] mt-4 transition-all duration-300 hover:bg-purple-700 cursor-pointer hover:scale-105 font-bold shadow-md'>Cadastrar Atividade</button>
-          </form>
-        </section>
-      </div>
-
-      <section className='p-2'>
-        <h2 className='flex text-purple-900 justify-center font-extrabold text-2xl'>Lista de Atividades</h2>
-        <p className='flex justify-center font-bold text-1xl text-purple-700'>Visão: </p>
-        <div className='flex gap-5 justify-center mt-2 '>
-          
-          <button className='bg-purple-600 text-white p-2 rounded-lg w-[20%] transition-all duration-300 hover:bg-purple-700 cursor-pointer hover:scale-101 transitio-all duration-300' onClick={() => setFilterMode('day')}>Dia</button>
-          <button className='bg-purple-600 text-white p-2 rounded-lg w-[20%] transition-all duration-300 hover:bg-purple-700 cursor-pointer hover:scale-101 transitio-all duration-300' onClick={() => setFilterMode('week')}>Semana</button>
-          <button className='bg-purple-600 text-white p-2 rounded-lg w-[20%] transition-all duration-300 hover:bg-purple-700 cursor-pointer hover:scale-101 transitio-all duration-300' onClick={() => setFilterMode('month')}>Mês</button>
-        </div>
-
-        {loading ? <p className='text-center mt-5 font-bold text-purple-600'>Carregando...</p> : (
-          <div className='overflow-x-auto w-full mt-8 flex justify-center pb-10'>
-            <table className='w-[90%] bg-white shadow-xl rounded-xl overflow-hidden text-center border-collapse'>
-              <thead className='bg-purple-600 text-white'>
-                <tr>
-                  <th className='py-4 px-4 uppercase font-semibold text-sm tracking-wider'>Nome/Descrição</th>
-                  <th className='py-4 px-4 uppercase font-semibold text-sm tracking-wider'>Data</th>
-                  <th className='py-4 px-4 uppercase font-semibold text-sm tracking-wider'>Tipo</th>
-                  <th className='py-4 px-4 uppercase font-semibold text-sm tracking-wider'>Responsável</th>
-                </tr>
-              </thead>
-              <tbody className='text-gray-700'>
-                {filteredAtividades.length === 0 ? (
-                  <tr><td colSpan={4} className='py-8 font-semibold text-purple-500'>Nenhuma atividade encontrada para este período.</td></tr>
-                ) : filteredAtividades.map((atv, index) => (
-                  <tr key={atv.idAtv} className={`border-b border-purple-100 transition-colors ${index % 2 === 0 ? 'bg-purple-50 hover:bg-purple-100' : 'bg-white hover:bg-purple-100'}`}>
-                    <td className='py-4 px-4 font-medium'>{atv.nameAtv}</td>
-                    <td className='py-4 px-4 text-sm'>{new Date(atv.dataEntrega).toLocaleString()}</td>
-                    <td className='py-4 px-4'>
-                      <span className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${atv.typeAtv ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'}`}>
-                        {atv.typeAtv ? 'Prova' : 'Atividade'}
-                      </span>
-                    </td>
-                    <td className='py-4 px-4 font-semibold text-purple-900'>{atv.nameUser}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(10,33,93,0.16),_transparent_45%),linear-gradient(180deg,#f6f9ff_0%,#e6edff_55%,#f8fbff_100%)] text-slate-950">
+      <header className="mx-auto flex max-w-7xl items-center justify-between px-6 py-6 sm:px-10">
+        <button onClick={() => router.push('/')} className="flex items-center gap-3 text-left">
+          <div className="relative h-12 w-12 rounded-3xl bg-white shadow-lg shadow-slate-900/10">
+            <Image src={logoImg} alt="Pro Siga" fill className="object-contain p-2" />
           </div>
-        )}
-      </section>
+          <div>
+            <p className="text-xs uppercase tracking-[0.36em] text-slate-500">Pro Siga</p>
+            <p className="text-sm font-semibold text-slate-950">Painel acadêmico</p>
+          </div>
+        </button>
+        <nav className="flex items-center gap-4 text-sm font-semibold text-slate-700">
+          <button className="rounded-full border border-slate-300 bg-white px-5 py-2 transition hover:bg-slate-100">Criar Conta</button>
+          <button className="rounded-full bg-slate-950 px-5 py-2 text-white transition hover:bg-slate-800">Entrar</button>
+        </nav>
+      </header>
+
+      <main className="mx-auto max-w-7xl px-6 pb-20 sm:px-10">
+        <section className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+          <div className="relative overflow-hidden rounded-[2rem] border border-slate-200 bg-white px-8 py-10 shadow-xl shadow-slate-900/5">
+            <div className="absolute -right-8 -top-8 h-36 w-36 rounded-full bg-slate-200/80 blur-3xl" />
+            <div className="relative mx-auto h-[420px] w-full max-w-[520px]">
+              <Image src={heroImg} alt="Ilustração professor e aluno" fill className="object-contain" />
+            </div>
+          </div>
+
+          <div className="space-y-8">
+            <div className="inline-flex items-center gap-3 rounded-full bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm shadow-slate-900/5">
+              Feito para o aluno e para o professor
+            </div>
+
+            <div className="max-w-2xl space-y-6">
+              <h1 className="text-5xl font-semibold tracking-tight text-slate-950 sm:text-6xl">
+                Feito para o <span className="text-[#0f3460]">aluno</span> e para o <span className="text-[#0f3460]">professor</span>
+              </h1>
+              <p className="text-lg leading-8 text-slate-600">
+                Pro Siga é uma plataforma organizada, moderna e intuitiva, pensada para alunos e professores. Com uma interface clara e funcional, facilita o estudo do professor e torna a experiência do aluno mais fluida.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap gap-4">
+              <button onClick={handleStartClick} className="rounded-full bg-[#0f3460] px-8 py-4 text-sm font-semibold text-white shadow-lg shadow-slate-900/15 transition hover:bg-slate-800">
+                Experimente já
+              </button>
+              <button className="rounded-full border border-slate-300 bg-white px-8 py-4 text-sm font-semibold text-slate-950 transition hover:border-slate-400">
+                Saiba mais aqui
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section className="mt-20 rounded-[2rem] bg-white px-8 py-14 shadow-xl shadow-slate-900/5 sm:px-12">
+          <div className="mx-auto max-w-4xl text-center">
+            <p className="text-sm uppercase tracking-[0.3em] text-slate-500">Pensado em agilidade e facilidade</p>
+            <h2 className="mt-6 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
+              no caminho da informação
+            </h2>
+            <p className="mt-4 text-base leading-7 text-slate-600">
+              Centralize tarefas, recados e atualizações em um só lugar, com acesso simples para professores e alunos.
+            </p>
+          </div>
+
+          <div className="mt-12 grid gap-8 lg:grid-cols-2">
+            <div className="rounded-[2rem] border border-slate-200 bg-slate-50 p-8 text-center">
+              <div className="relative mx-auto mb-6 h-44 w-full max-w-[260px]">
+                <Image src={professorImg} alt="O professor" fill className="object-contain" />
+              </div>
+              <h3 className="text-xl font-semibold text-slate-950">O professor</h3>
+              <p className="mt-4 text-sm leading-7 text-slate-600">
+                Organiza conteúdos, acompanha a turma e simplifica a rotina acadêmica.
+              </p>
+            </div>
+            <div className="rounded-[2rem] border border-slate-200 bg-slate-50 p-8 text-center">
+              <div className="relative mx-auto mb-6 h-44 w-full max-w-[260px]">
+                <Image src={studentImg} alt="O aluno" fill className="object-contain" />
+              </div>
+              <h3 className="text-xl font-semibold text-slate-950">O aluno</h3>
+              <p className="mt-4 text-sm leading-7 text-slate-600">
+                Recebe avisos, acompanha informações importantes e se mantém conectado.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-10 flex justify-center">
+            <button onClick={() => router.push('/dashboard/atividades')} className="rounded-full bg-[#0f3460] px-10 py-4 text-sm font-semibold text-white shadow-lg shadow-slate-900/15 transition hover:bg-slate-800">
+              Saiba mais aqui
+            </button>
+          </div>
+        </section>
+      </main>
     </div>
   );
 }
