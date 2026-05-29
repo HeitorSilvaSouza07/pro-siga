@@ -6,8 +6,8 @@ import { getDb } from '../../../lib/db';
 export async function GET() {
   try {
     const pool = await getDb();
-    const [rows] = await pool.execute('SELECT * FROM tblUsuarios');
-    return NextResponse.json(rows);
+    const result = await pool.query('SELECT * FROM tblUsuarios');
+    return NextResponse.json(result.rows);
   } catch (err: unknown) {
     if (err instanceof Error) {
       return NextResponse.json({ error: err.message }, { status: 500 });
@@ -22,8 +22,8 @@ export async function POST(req: Request) {
     const { nameUser, materiaUser } = await req.json();
     const pool = await getDb();
     
-    await pool.execute(
-      'INSERT INTO tblUsuarios (nameUser, materiaUser) VALUES (?, ?)',
+    await pool.query(
+      'INSERT INTO tblUsuarios (nameUser, materiaUser) VALUES ($1, $2)',
       [nameUser, materiaUser]
     );
     

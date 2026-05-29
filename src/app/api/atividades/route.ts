@@ -20,8 +20,8 @@ export async function GET() {
       INNER JOIN tblusuarios u ON a.iduser = u.iduser
       ORDER BY a.dataentrega ASC
     `;
-    const [rows] = await pool.execute(query);
-    return NextResponse.json(rows);
+    const result = await pool.query(query);
+    return NextResponse.json(result.rows);
   } catch (err: unknown) {
     if (err instanceof Error) {
       return NextResponse.json({ error: err.message }, { status: 500 });
@@ -36,11 +36,11 @@ export async function POST(req: Request) {
     const { idUser, nameAtv, dataEntrega, typeAtv } = await req.json();
     const pool = await getDb();
     
-    await pool.execute(`
+    await pool.query(`
         INSERT INTO tblAtividades (idUser, nameAtv, dataEntrega, typeAtv) 
-        VALUES (?, ?, ?, ?)
+        VALUES ($1, $2, $3, $4)
       `,
-      [idUser, nameAtv, new Date(dataEntrega), typeAtv ? 1 : 0]
+      [idUser, nameAtv, new Date(dataEntrega), Boolean(typeAtv)]
     );
     
     return NextResponse.json({ message: 'Atividade criada com sucesso' });
