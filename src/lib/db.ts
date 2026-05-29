@@ -23,8 +23,13 @@ export async function getDb() {
     );
     pool = new Pool(poolConfig);
     return pool;
-  } catch (err) {
-    console.error('Erro ao conectar no banco de dados:', err);
-    throw err;
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      console.error('Erro ao conectar no banco de dados:', err.message);
+      throw err;
+    }
+
+    console.error('Erro ao conectar no banco de dados: Unknown error');
+    throw new Error('Unknown database connection error');
   }
 }
