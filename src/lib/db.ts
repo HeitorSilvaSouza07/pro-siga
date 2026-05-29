@@ -3,18 +3,17 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const pool = new Pool({
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  host: process.env.DB_SERVER,
-  database: process.env.DB_NAME,
-  port: Number(process.env.DB_PORT) || 5432,
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
 export async function getDb() {
   try {
     // A simple query to test the connection
     await pool.query('SELECT NOW()');
-    console.log(`Conectado ao banco PostgreSQL no host: ${process.env.DB_SERVER} porta: ${process.env.DB_PORT || 5432}`);
+    console.log(`Conectado ao banco PostgreSQL no Neon com sucesso!`);
     return pool;
   } catch (err: unknown) {
     if (err instanceof Error) {

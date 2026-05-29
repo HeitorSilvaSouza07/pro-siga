@@ -6,7 +6,14 @@ import { getDb } from '../../../lib/db';
 export async function GET() {
   try {
     const pool = await getDb();
-    const result = await pool.query('SELECT * FROM tblUsuarios');
+    const query = `
+      SELECT
+        iduser AS "idUser",
+        nameuser AS "nameUser",
+        materiauser AS "materiaUser"
+      FROM tblUsuarios
+    `;
+    const result = await pool.query(query);
     return NextResponse.json(result.rows);
   } catch (err: unknown) {
     if (err instanceof Error) {

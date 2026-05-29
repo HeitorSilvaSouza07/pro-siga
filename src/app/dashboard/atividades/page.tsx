@@ -189,11 +189,11 @@ export default function VerAtividadesPage() {
         <div className='mt-8 grid md:grid-cols-3 gap-4'>
           <div className='bg-purple-100 rounded-lg p-6 text-center'>
             <p className='text-purple-600 font-semibold mb-2'>Total de Atividades</p>
-            <p className='text-3xl font-bold text-purple-800'>{atividades.filter(a => a.typeAtv === 0).length}</p>
+            <p className='text-3xl font-bold text-purple-800'>{atividades.filter(a => a.typeAtv === false).length}</p>
           </div>
           <div className='bg-red-100 rounded-lg p-6 text-center'>
             <p className='text-red-600 font-semibold mb-2'>Total de Provas</p>
-            <p className='text-3xl font-bold text-red-800'>{atividades.filter(a => a.typeAtv === 1).length}</p>
+            <p className='text-3xl font-bold text-red-800'>{atividades.filter(a => a.typeAtv === true).length}</p>
           </div>
           <div className='bg-pink-100 rounded-lg p-6 text-center'>
             <p className='text-pink-600 font-semibold mb-2'>Neste Período</p>
