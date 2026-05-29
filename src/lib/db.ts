@@ -1,6 +1,4 @@
-import { Pool } from 'pg';
-import dotenv from 'dotenv';
-dotenv.config();
+import sql from 'mssql'
 
 const poolConfig = process.env.DATABASE_URL
   ? { connectionString: process.env.DATABASE_URL }
