@@ -1,7 +1,6 @@
 //api simples para funcionamento da aplicação na parte de atividades 
 import { NextResponse } from 'next/server';
-import { getDb } from '@/src/lib/db';
-import sql from 'mssql';
+import { getDb } from '@/lib/db';
 
 //função para buscar todas as atividades
 export async function GET() {
@@ -9,13 +8,20 @@ export async function GET() {
     const pool = await getDb();
     // JOIN para buscar o nome do usuário responsável
     const query = `
-      SELECT a.*, u.nameUser 
-      FROM tblAtividades a 
-      INNER JOIN tblUsuarios u ON a.idUser = u.idUser
-      ORDER BY a.dataEntrega ASC
+      SELECT
+        a.idatv AS "idAtv",
+        a.iduser AS "idUser",
+        a.nameatv AS "nameAtv",
+        a.dataentrega AS "dataEntrega",
+        a.typeatv AS "typeAtv",
+        a.descatv AS "descAtv",
+        u.nameuser AS "nameUser"
+      FROM tblatividades a
+      INNER JOIN tblusuarios u ON a.iduser = u.iduser
+      ORDER BY a.dataentrega ASC
     `;
-    const result = await pool.request().query(query);
-    return NextResponse.json(result.recordset);
+    const result = await pool.query(query);
+    return NextResponse.json(result.rows);
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
@@ -27,18 +33,14 @@ export async function POST(req: Request) {
     const { idUser, nameAtv, dataEntrega, typeAtv } = await req.json();
     const pool = await getDb();
     
-    await pool.request()
-      .input('idUser', sql.Int, idUser)
-      .input('nameAtv', sql.VarChar, nameAtv)
-      .input('dataEntrega', sql.DateTime, new Date(dataEntrega))
-      .input('typeAtv', sql.Bit, typeAtv)
-      .query(`
-        INSERT INTO tblAtividades (idUser, nameAtv, dataEntrega, typeAtv) 
-        VALUES (@idUser, @nameAtv, @dataEntrega, @typeAtv)
-      `);
+    await pool.query(
+      `INSERT INTO tblAtividades (idUser, nameAtv, dataEntrega, typeAtv) VALUES ($1, $2, $3, $4)`,
+      [idUser, nameAtv, new Date(dataEntrega), typeAtv ? true : false]
+    );
     
     return NextResponse.json({ message: 'Atividade criada com sucesso' });
   } catch (err: any) {
+    console.error(err);
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }

@@ -1,22 +1,16 @@
-//cria o db do projeto
-create database ProSigaDevDb
+-- Migração PostgreSQL para criar as tabelas do projeto
 
-//usa o db criado
-use ProSigaDevDb
+CREATE TABLE IF NOT EXISTS tblusuarios (
+  iduser SERIAL PRIMARY KEY,
+  nameuser VARCHAR(255) NOT NULL,
+  materiauser VARCHAR(255) NOT NULL
+);
 
-//cria a tabela de usuarios
-create table tblUsuarios(
-idUser int identity(1,1) primary key,
-nameUser varchar(100) not null,
-materiaUser varchar(100) not null
-)
-
-//cria a tabela de atividade e declara chave primaria com o idUser 
-create table tblAtividades(
-idAtv int identity(1,1) primary key,
-idUser int not null,
-nameAtv varchar(100),
-dataEntrega datetime,
-typeAtv bit ,
-foreign key (idUser) references tblUsuarios(idUser)
-)
+CREATE TABLE IF NOT EXISTS tblatividades (
+  idatv SERIAL PRIMARY KEY,
+  iduser INTEGER NOT NULL REFERENCES tblusuarios(iduser),
+  nameatv VARCHAR(255) NOT NULL,
+  dataentrega TIMESTAMP NOT NULL,
+  typeatv BOOLEAN NOT NULL,
+  descatv VARCHAR(1500)
+);
