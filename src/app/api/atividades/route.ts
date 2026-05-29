@@ -20,8 +20,8 @@ export async function GET() {
       INNER JOIN tblusuarios u ON a.iduser = u.iduser
       ORDER BY a.dataentrega ASC
     `;
-    const result = await pool.query(query);
-    return NextResponse.json(result.rows);
+    const [rows] = await pool.execute(query);
+    return NextResponse.json(rows);
   } catch (err: unknown) {
     if (err instanceof Error) {
       return NextResponse.json({ error: err.message }, { status: 500 });
@@ -36,9 +36,11 @@ export async function POST(req: Request) {
     const { idUser, nameAtv, dataEntrega, typeAtv } = await req.json();
     const pool = await getDb();
     
-    await pool.query(
-      `INSERT INTO tblatividades (iduser, nameatv, dataentrega, typeatv) VALUES ($1, $2, $3, $4)`,
-      [idUser, nameAtv, new Date(dataEntrega), typeAtv ? true : false]
+    await pool.execute(`
+        INSERT INTO tblAtividades (idUser, nameAtv, dataEntrega, typeAtv) 
+        VALUES (?, ?, ?, ?)
+      `,
+      [idUser, nameAtv, new Date(dataEntrega), typeAtv ? 1 : 0]
     );
     
     return NextResponse.json({ message: 'Atividade criada com sucesso' });
@@ -47,6 +49,7 @@ export async function POST(req: Request) {
       console.error(err);
       return NextResponse.json({ error: err.message }, { status: 500 });
     }
+    console.error('Erro desconhecido:', err);
     return NextResponse.json({ error: 'Unknown error' }, { status: 500 });
   }
 }

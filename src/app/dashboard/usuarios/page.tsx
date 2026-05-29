@@ -26,8 +26,12 @@ export default function UsuariosPage() {
       }
 
       setUsuarios(Array.isArray(data) ? data : []);
-    } catch (err: any) {
-      console.error('Erro ao buscar usuários:', err);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error('Erro ao buscar usuários:', err.message);
+      } else {
+        console.error('Erro ao buscar usuários desconhecido:', err);
+      }
       setError('Falha na conexão com a API.');
     } finally {
       setLoading(false);
@@ -55,7 +59,12 @@ export default function UsuariosPage() {
       } else {
         setError('Erro: ' + (result.error || 'Falha ao criar usuário'));
       }
-    } catch (err) {
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error('Erro ao criar usuário:', err.message);
+      } else {
+        console.error('Erro ao criar usuário desconhecido:', err);
+      }
       setError('Erro de conexão ao criar usuário');
     }
   };

@@ -1,37 +1,31 @@
-import { Pool } from 'pg';
+import mysql from 'mysql2/promise';
 import dotenv from 'dotenv';
 dotenv.config();
 
-const poolConfig = process.env.DATABASE_URL
-  ? {
-      connectionString: process.env.DATABASE_URL,
-      ssl: {
-        rejectUnauthorized: false
-      }
-    }
-  : {
-      user: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      host: process.env.DB_SERVER,
-      database: process.env.DB_NAME,
-      port: Number(process.env.DB_PORT)
-    };
+const config = {
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  host: process.env.DB_SERVER,
+  database: process.env.DB_NAME,
+  port: Number(process.env.DB_PORT)
+};
 
-let pool: Pool | null = null;
+let pool: mysql.Pool | null = null;
 
 export async function getDb() {
   if (pool) return pool;
   
   try {
-    console.log(
-      process.env.DATABASE_URL
-        ? 'Tentando conectar ao PostgreSQL via DATABASE_URL'
-        : `Tentando conectar ao PostgreSQL no host: ${process.env.DB_SERVER} porta: ${process.env.DB_PORT}`
-    );
-    pool = new Pool(poolConfig);
+    console.log(`Tentando conectar ao banco MySQL no host: ${config.host} porta: ${config.port}`);
+    pool = mysql.createPool(config);
     return pool;
-  } catch (err) {
-    console.error('Erro ao conectar no banco de dados:', err);
-    throw err;
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      console.error('Erro ao conectar no banco de dados:', err.message);
+      throw err;
+    }
+
+    console.error('Erro ao conectar no banco de dados: Unknown error');
+    throw new Error('Unknown database connection error');
   }
 }

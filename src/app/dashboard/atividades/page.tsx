@@ -24,8 +24,12 @@ export default function VerAtividadesPage() {
       }
 
       setAtividades(Array.isArray(data) ? data : []);
-    } catch (err: any) {
-      console.error('Erro ao buscar atividades:', err);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error('Erro ao buscar atividades:', err.message);
+      } else {
+        console.error('Erro ao buscar atividades desconhecido:', err);
+      }
       setError('Falha na conexão com a API.');
     } finally {
       setLoading(false);

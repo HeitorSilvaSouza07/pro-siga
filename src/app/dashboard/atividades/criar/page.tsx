@@ -30,8 +30,12 @@ export default function CriarAtividadePage() {
       }
 
       setUsuarios(Array.isArray(data) ? data : []);
-    } catch (err: any) {
-      console.error('Erro:', err);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error('Erro:', err.message);
+      } else {
+        console.error('Erro desconhecido:', err);
+      }
       setError('Falha na conexão com a API.');
     } finally {
       setLoading(false);
@@ -66,7 +70,12 @@ export default function CriarAtividadePage() {
       } else {
         setError('Erro: ' + (result.error || 'Falha ao criar atividade'));
       }
-    } catch (err) {
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error('Erro ao criar atividade:', err.message);
+      } else {
+        console.error('Erro de conexão desconhecido:', err);
+      }
       setError('Erro de conexão ao criar atividade');
     }
   };
