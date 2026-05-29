@@ -1,4 +1,4 @@
-//api simples para funcionamento da aplicação na parte de atividades 
+//api simples para funcionamento da aplicação na parte de atividades
 import { NextResponse } from 'next/server';
 import { getDb } from '@/lib/db';
 
@@ -8,15 +8,25 @@ export async function GET() {
     const pool = await getDb();
     // JOIN para buscar o nome do usuário responsável
     const query = `
-      SELECT a.*, u.nameUser 
-      FROM tblAtividades a 
-      INNER JOIN tblUsuarios u ON a.idUser = u.idUser
-      ORDER BY a.dataEntrega ASC
+      SELECT
+        a.idatv AS "idAtv",
+        a.iduser AS "idUser",
+        a.nameatv AS "nameAtv",
+        a.dataentrega AS "dataEntrega",
+        a.typeatv AS "typeAtv",
+        a.descatv AS "descAtv",
+        u.nameuser AS "nameUser"
+      FROM tblatividades a
+      INNER JOIN tblusuarios u ON a.iduser = u.iduser
+      ORDER BY a.dataentrega ASC
     `;
-    const [rows] = await pool.execute(query);
-    return NextResponse.json(rows);
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    const result = await pool.query(query);
+    return NextResponse.json(result.rows);
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      return NextResponse.json({ error: err.message }, { status: 500 });
+    }
+    return NextResponse.json({ error: 'Unknown error' }, { status: 500 });
   }
 }
 
@@ -26,16 +36,17 @@ export async function POST(req: Request) {
     const { idUser, nameAtv, dataEntrega, typeAtv } = await req.json();
     const pool = await getDb();
     
-    await pool.execute(`
-        INSERT INTO tblAtividades (idUser, nameAtv, dataEntrega, typeAtv) 
-        VALUES (?, ?, ?, ?)
-      `,
-      [idUser, nameAtv, new Date(dataEntrega), typeAtv ? 1 : 0]
+    await pool.query(
+      `INSERT INTO tblatividades (iduser, nameatv, dataentrega, typeatv) VALUES ($1, $2, $3, $4)`,
+      [idUser, nameAtv, new Date(dataEntrega), typeAtv ? true : false]
     );
     
     return NextResponse.json({ message: 'Atividade criada com sucesso' });
-  } catch (err: any) {
-    console.error(err);
-    return NextResponse.json({ error: err.message }, { status: 500 });
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      console.error(err);
+      return NextResponse.json({ error: err.message }, { status: 500 });
+    }
+    return NextResponse.json({ error: 'Unknown error' }, { status: 500 });
   }
 }
