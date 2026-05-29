@@ -12,8 +12,12 @@ export async function GET() {
        ORDER BY iduser ASC`
     );
     return NextResponse.json(result.rows);
-  } catch (err) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      return NextResponse.json({ error: err.message }, { status: 500 });
+    }
+
+    return NextResponse.json({ error: 'Unknown error' }, { status: 500 });
   }
 }
 
@@ -29,7 +33,11 @@ export async function POST(req: Request) {
     );
     
     return NextResponse.json({ message: 'Usuário criado com sucesso' });
-  } catch (err) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      return NextResponse.json({ error: err.message }, { status: 500 });
+    }
+
+    return NextResponse.json({ error: 'Unknown error' }, { status: 500 });
   }
 }
