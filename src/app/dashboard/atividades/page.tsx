@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 
 export default function VerAtividadesPage() {
-  const [atividades, setAtividades] = useState<any[]>([]);
+  const [atividades, setAtividades] = useState<[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [filterMode, setFilterMode] = useState('month');
