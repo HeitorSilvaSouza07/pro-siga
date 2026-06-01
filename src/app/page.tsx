@@ -5,7 +5,7 @@ import Image from 'next/image';
 import logoImg from '../img/image 11.png';
 import heroImg from '../img/professor.png';
 import professorImg from '../img/professor.png';
-import studentImg from '../img/image 11.png';
+import studentImg from '../img/feliz.png';
 import avaliações from '../img/avaliations.png'
 
 export default function Home() {
@@ -24,10 +24,6 @@ export default function Home() {
           </div>
 
         </button>
-        <nav className="flex items-center gap-4 text-sm font-semibold text-[#052659]">
-          <button className="border border-[#052659] bg-[#052659] px-5 text-white py-2 transition hover:bg-white hover:text-[#052659] hover:border">Criar Conta</button>
-          <button className="bg-white border px-5 py-2 text-[#052659] transition hover:bg-[#052659] hover:text-white">Entrar</button>
-        </nav>
       </header>
 
       <main className="mx-auto max-w-7xl px-6 pb-20 sm:px-10">
@@ -69,16 +65,16 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="mt-20 rounded-[2rem] bg-white px-8 py-14 shadow-xl shadow-[#052659]/5 sm:px-12">
+        <section className="mt-20 rounded-[2rem]  px-8 py-14 sm:px-12">
           <div className="mx-auto max-w-4xl text-center">
-            <h2 className="text-sm uppercase tracking-[0.3em] text-[#052659]/60">Pensado em agilidade e facilidade no caminho da sua informação</h2>
-            <p className="mt-4 text-base leading-7 text-[#052659]/70">
+            <h1 className="text-3xl font-semibold tracking-tight text-[#052659] sm:text-4xl">Pensado em <span className="text-[#052659]/70">agilidade</span> e <span className="text-[#052659]/70">facilidade</span><br />no caminho da informação</h1>
+            <p className="mt-6 text-base leading-7 text-[#052659]/70">
               Centralize tarefas, recados e atualizações em um só lugar, com acesso simples para professores e alunos.
             </p>
           </div>
 
           <div className="mt-12 grid gap-8 lg:grid-cols-2">
-            <div className="rounded-[2rem] border border-[#052659]/20 bg-[#052659]/5 p-8 text-center">
+            <div className=" border border-[#052659]/20 bg-[#052659]/5 p-8 text-center">
               <div className="relative mx-auto mb-6 h-44 w-full max-w-[260px]">
                 <Image src={professorImg} alt="O professor" fill className="object-contain" />
               </div>
@@ -87,7 +83,7 @@ export default function Home() {
                 Organiza conteúdos, acompanha a turma e simplifica a rotina acadêmica.
               </p>
             </div>
-            <div className="rounded-[2rem] border border-[#052659]/20 bg-[#052659]/5 p-8 text-center">
+            <div className=" border border-[#052659]/20 bg-[#052659]/5 p-8 text-center">
               <div className="relative mx-auto mb-6 h-44 w-full max-w-[260px]">
                 <Image src={studentImg} alt="O aluno" fill className="object-contain" />
               </div>
@@ -99,7 +95,7 @@ export default function Home() {
           </div>
 
           <div className="mt-10 flex justify-center">
-            <button onClick={() => router.push('/dashboard/atividades')} className="rounded-full bg-[#0f3460] px-10 py-4 text-sm font-semibold text-white shadow-lg shadow-[#052659]/15 transition hover:bg-[#052659]">
+            <button onClick={() => router.push('/dashboard/atividades')} className=" bg-[#0f3460] hover:bg-white hover:border hover:border-[#0f3460] hover:text-[#0f3460] px-10 py-4 text-sm font-semibold text-white shadow-lg shadow-[#052659]/15 transition hover:bg-[#052659]">
               Saiba mais aqui
             </button>
           </div>
