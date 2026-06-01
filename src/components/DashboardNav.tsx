@@ -38,10 +38,10 @@ export default function DashboardNav() {
             <button
               key={item.href}
               onClick={() => router.push(item.href)}
-              className={` px-5 py-2 text-sm font-semibold transition hover:border-slate-200 ${
+              className={`px-5 py-2 text-sm font-semibold transition border border-transparent rounded-2xl ${
                 isActive(item.href)
                   ? 'bg-slate-200 text-slate-950 shadow-sm'
-                  : 'bg-slate-900/80 text-slate-100 hover:bg-white hover:text-slate-800'
+                  : 'bg-slate-900/80 text-slate-100 hover:border-slate-200 hover:bg-white hover:text-slate-800'
               }`}
             >
               {item.label}
