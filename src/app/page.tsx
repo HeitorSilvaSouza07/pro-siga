@@ -53,7 +53,7 @@ export default function Home() {
 
             <div className="flex flex-wrap gap-4">
               <button onClick={handleStartClick} className=" bg-[#052659] px-20 py-6 text-sm font-semibold text-white hover:border shadow-[#052659]/15 transition hover:bg-white hover:text-[#052659]">
-                Experimente já
+                Experimente já o Pro Siga!
               </button>
             </div>
           </div>
