@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import logoImg from '../img/image 11.png';
-import heroImg from '../img/image 1.png';
+import heroImg from '../img/professor.png';
 import professorImg from '../img/image 8.png';
 import studentImg from '../img/image 9.png';
 
