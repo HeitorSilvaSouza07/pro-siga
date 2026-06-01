@@ -30,7 +30,6 @@ export default function DashboardNav() {
           </div>
           <div>
             <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Pro Siga</p>
-            <p className="text-sm font-semibold">Dashboard</p>
           </div>
         </button>
 
