@@ -4,8 +4,8 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import logoImg from '../img/image 11.png';
 import heroImg from '../img/professor.png';
-import professorImg from '../img/image 8.png';
-import studentImg from '../img/image 9.png';
+import professorImg from '../img/professor.png';
+import studentImg from '../img/image 11.png';
 import avaliações from '../img/avaliations.png'
 
 export default function Home() {
@@ -60,6 +60,12 @@ export default function Home() {
                 Experimente já
               </button>
             </div>
+          </div>
+        </section>
+
+        <section>
+          <div>
+            <img src="../img/avaliations.png" alt="" />
           </div>
         </section>
 

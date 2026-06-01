@@ -38,9 +38,11 @@ export default function VerAtividadesPage() {
 
   const isCurrentDay = (date: Date) => {
     const today = new Date();
-    return date.getDate() === today.getDate() &&
-           date.getMonth() === today.getMonth() &&
-           date.getFullYear() === today.getFullYear();
+    return (
+      date.getDate() === today.getDate() &&
+      date.getMonth() === today.getMonth() &&
+      date.getFullYear() === today.getFullYear()
+    );
   };
 
   const isCurrentWeek = (date: Date) => {
@@ -58,8 +60,7 @@ export default function VerAtividadesPage() {
 
   const isCurrentMonth = (date: Date) => {
     const today = new Date();
-    return date.getMonth() === today.getMonth() &&
-           date.getFullYear() === today.getFullYear();
+    return date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear();
   };
 
   const filteredAtividades = (Array.isArray(atividades) ? atividades : []).filter(atv => {
@@ -70,111 +71,95 @@ export default function VerAtividadesPage() {
     return true;
   });
 
-  return (
-    <div>
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-4xl font-extrabold text-purple-800 mb-2">Atividades</h1>
-        <p className="text-gray-600">Visualize todas as atividades e provas cadastradas</p>
-      </div>
+  const filterButtonClass = (mode: string) =>
+    `border px-5 py-2 text-sm font-semibold transition ${
+      filterMode === mode
+        ? 'border-slate-800 bg-slate-800 text-white'
+        : 'border-slate-800 bg-white text-slate-700 hover:bg-slate-100'
+    }`;
 
-      {/* Error Alert */}
+  return (
+    <div className="text-slate-950">
+      <header className="mb-8">
+        <h1 className="mt-2 text-4xl font-semibold tracking-tight text-slate-800 sm:text-5xl">
+          Atividades
+        </h1>
+        <p className="mt-3 max-w-2xl text-base leading-7 text-slate-600">
+          Visualize todas as atividades e provas cadastradas
+        </p>
+      </header>
+
       {error && (
-        <div className='bg-red-100 border border-red-400 text-red-700 px-6 py-4 rounded-lg mb-6'>
-          <strong>Erro!</strong>
-          <p className='mt-2'>{error}</p>
-          <button 
+        <div className="mb-6 rounded-2xl border border-red-200 bg-red-50 px-6 py-4 text-red-800">
+          <strong className="font-semibold">Erro</strong>
+          <p className="mt-2 text-sm">{error}</p>
+          <button
             onClick={fetchAtividades}
-            className='mt-3 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition'
+            className="mt-3 rounded-full bg-slate-800 px-5 py-2 text-sm font-semibold text-white transition hover:bg-slate-950"
           >
-            Tentar Novamente
+            Tentar novamente
           </button>
         </div>
       )}
 
-      {/* Filter Buttons */}
-      <div className='mb-8 flex gap-4 flex-wrap'>
-        <p className='font-semibold text-gray-700 flex items-center'>Visualizar por:</p>
-        <button
-          onClick={() => setFilterMode('day')}
-          className={`px-6 py-2 rounded-lg font-semibold transition-all duration-300 ${
-            filterMode === 'day'
-              ? 'bg-purple-600 text-white shadow-lg'
-              : 'bg-white border border-purple-300 text-purple-600 hover:bg-purple-50'
-          }`}
-        >
-          📅 Dia
+      <div className="mb-8 flex flex-wrap items-center gap-3">
+        <span className="text-sm font-semibold text-slate-700">Visualizar por:</span>
+        <button onClick={() => setFilterMode('day')} className={filterButtonClass('day')}>
+          Dia
         </button>
-        <button
-          onClick={() => setFilterMode('week')}
-          className={`px-6 py-2 rounded-lg font-semibold transition-all duration-300 ${
-            filterMode === 'week'
-              ? 'bg-purple-600 text-white shadow-lg'
-              : 'bg-white border border-purple-300 text-purple-600 hover:bg-purple-50'
-          }`}
-        >
-          📆 Semana
+        <button onClick={() => setFilterMode('week')} className={filterButtonClass('week')}>
+          Semana
         </button>
-        <button
-          onClick={() => setFilterMode('month')}
-          className={`px-6 py-2 rounded-lg font-semibold transition-all duration-300 ${
-            filterMode === 'month'
-              ? 'bg-purple-600 text-white shadow-lg'
-              : 'bg-white border border-purple-300 text-purple-600 hover:bg-purple-50'
-          }`}
-        >
-          📊 Mês
+        <button onClick={() => setFilterMode('month')} className={filterButtonClass('month')}>
+          Mês
         </button>
       </div>
 
-      {/* Table */}
       {loading ? (
-        <div className='bg-white rounded-lg shadow-lg p-12 text-center'>
-          <p className='text-purple-600 font-semibold text-lg'>Carregando atividades...</p>
+        <div className="border border-slate-200 bg-white p-12 text-center shadow-xl shadow-slate-900/5">
+          <p className="text-sm font-semibold text-slate-600">Carregando atividades...</p>
         </div>
       ) : (
-        <div className='bg-white rounded-lg shadow-lg overflow-hidden'>
+        <div className="overflow-hidden border border-slate-200 bg-white shadow-xl shadow-slate-900/5">
           {filteredAtividades.length === 0 ? (
-            <div className='p-12 text-center'>
-              <p className='text-gray-500 text-lg'>Nenhuma atividade encontrada para este período.</p>
+            <div className="p-12 text-center">
+              <p className="text-slate-500">Nenhuma atividade encontrada para este período.</p>
             </div>
           ) : (
-            <div className='overflow-x-auto'>
-              <table className='w-full'>
-                <thead className='bg-gradient-to-r from-purple-600 to-purple-700 text-white'>
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse border border-slate-800">
+                <thead className="bg-slate-800 text-white">
                   <tr>
-                    <th className='px-6 py-4 text-left font-semibold'>Nome/Descrição</th>
-                    <th className='px-6 py-4 text-left font-semibold'>Data de Entrega</th>
-                    <th className='px-6 py-4 text-left font-semibold'>Tipo</th>
-                    <th className='px-6 py-4 text-left font-semibold'>Responsável</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold">Nome / descrição</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold">Data de entrega</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold">Tipo</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold">Responsável</th>
                   </tr>
                 </thead>
-                <tbody className='text-gray-700'>
+                <tbody className="text-slate-700">
                   {filteredAtividades.map((atv, index) => (
                     <tr
                       key={atv.idAtv}
-                      className={`border-b transition-colors ${
-                        index % 2 === 0
-                          ? 'bg-purple-50 hover:bg-purple-100'
-                          : 'bg-white hover:bg-purple-50'
+                      className={`border-b border-slate-100 transition-colors ${
+                        index % 2 === 0 ? 'bg-slate-50 hover:bg-slate-100/80' : 'bg-white hover:bg-slate-50'
                       }`}
                     >
-                      <td className='px-6 py-4 font-medium text-gray-900'>{atv.nameAtv}</td>
-                      <td className='px-6 py-4 text-sm'>
+                      <td className="px-6 py-4 font-medium text-slate-900">{atv.nameAtv}</td>
+                      <td className="px-6 py-4 text-sm">
                         {new Date(atv.dataEntrega).toLocaleString('pt-BR')}
                       </td>
-                      <td className='px-6 py-4'>
+                      <td className="px-6 py-4">
                         <span
-                          className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold ${
+                          className={`inline-flex items-center px-3 py-1 text-xs font-semibold ${
                             atv.typeAtv
-                              ? 'bg-red-100 text-red-800'
-                              : 'bg-green-100 text-green-800'
+                              ? 'bg-amber-100 text-amber-900'
+                              : 'bg-emerald-100 text-emerald-900'
                           }`}
                         >
-                          {atv.typeAtv ? '📖 Prova' : '📝 Atividade'}
+                          {atv.typeAtv ? 'Prova' : 'Atividade'}
                         </span>
                       </td>
-                      <td className='px-6 py-4 font-semibold text-purple-900'>{atv.nameUser}</td>
+                      <td className="px-6 py-4 font-semibold text-slate-800">{atv.nameUser}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -184,20 +169,23 @@ export default function VerAtividadesPage() {
         </div>
       )}
 
-      {/* Stats */}
       {!loading && (
-        <div className='mt-8 grid md:grid-cols-3 gap-4'>
-          <div className='bg-purple-100 rounded-lg p-6 text-center'>
-            <p className='text-purple-600 font-semibold mb-2'>Total de Atividades</p>
-            <p className='text-3xl font-bold text-purple-800'>{atividades.filter(a => a.typeAtv === false).length}</p>
+        <div className="mt-8 grid gap-4 md:grid-cols-3">
+          <div className=" border border-slate-800 bg-white p-6 text-center shadow-lg shadow-slate-900/5">
+            <p className="text-sm font-semibold text-slate-500">Total de atividades</p>
+            <p className="mt-2 text-3xl font-semibold text-slate-800">
+              {atividades.filter(a => a.typeAtv === false).length}
+            </p>
           </div>
-          <div className='bg-red-100 rounded-lg p-6 text-center'>
-            <p className='text-red-600 font-semibold mb-2'>Total de Provas</p>
-            <p className='text-3xl font-bold text-red-800'>{atividades.filter(a => a.typeAtv === true).length}</p>
+          <div className=" border border-slate-800 bg-slate-50 p-6 text-center shadow-lg shadow-slate-900/5">
+            <p className="text-sm font-semibold text-slate-500">Total de provas</p>
+            <p className="mt-2 text-3xl font-semibold text-slate-800">
+              {atividades.filter(a => a.typeAtv === true).length}
+            </p>
           </div>
-          <div className='bg-pink-100 rounded-lg p-6 text-center'>
-            <p className='text-pink-600 font-semibold mb-2'>Neste Período</p>
-            <p className='text-3xl font-bold text-pink-800'>{filteredAtividades.length}</p>
+          <div className=" border border-slate-800 bg-white p-6 text-center shadow-lg shadow-slate-900/5">
+            <p className="text-sm font-semibold text-slate-500">Neste período</p>
+            <p className="mt-2 text-3xl font-semibold text-[#0f3460]">{filteredAtividades.length}</p>
           </div>
         </div>
       )}
