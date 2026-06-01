@@ -3,8 +3,14 @@
 import { useState, useEffect } from 'react';
 import { showCreatedSuccess } from '@/lib/swal';
 
+type Usuario = {
+  idUser: number;
+  nameUser: string;
+  materiaUser: string;
+};
+
 export default function UsuariosPage() {
-  const [usuarios, setUsuarios] = useState<[]>([]);
+  const [usuarios, setUsuarios] = useState<Usuario[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [nameUser, setNameUser] = useState('');

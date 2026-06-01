@@ -3,11 +3,17 @@
 import { useState, useEffect } from 'react';
 import { showCreatedSuccess } from '@/lib/swal';
 
+type Usuario = {
+  idUser: number;
+  nameUser: string;
+  materiaUser: string;
+};
+
 const inputClass =
   'w-full border border-slate-800 bg-slate-50 p-3 outline-none transition focus:border-slate-400 focus:ring-2 focus:ring-slate-800/20';
 
 export default function CriarAtividadePage() {
-  const [usuarios, setUsuarios] = useState<[]>([]);
+  const [usuarios, setUsuarios] = useState<Usuario[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);

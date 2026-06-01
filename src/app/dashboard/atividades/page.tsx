@@ -2,8 +2,18 @@
 
 import { useState, useEffect } from 'react';
 
+type Atividade = {
+  idAtv: number;
+  idUser: number;
+  nameAtv: string;
+  dataEntrega: string;
+  typeAtv: boolean;
+  descAtv?: string;
+  nameUser: string;
+};
+
 export default function VerAtividadesPage() {
-  const [atividades, setAtividades] = useState<[]>([]);
+  const [atividades, setAtividades] = useState<Atividade[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [filterMode, setFilterMode] = useState('month');
