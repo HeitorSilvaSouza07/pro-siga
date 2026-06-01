@@ -6,6 +6,7 @@ import logoImg from '../img/image 11.png';
 import heroImg from '../img/professor.png';
 import professorImg from '../img/image 8.png';
 import studentImg from '../img/image 9.png';
+import avaliações from '../img/avaliations.png'
 
 export default function Home() {
   const router = useRouter();
@@ -30,8 +31,13 @@ export default function Home() {
       </header>
 
       <main className="mx-auto max-w-7xl px-6 pb-20 sm:px-10">
+        <section>
+          <div>
+
+          </div>
+        </section>
         <section className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-          <div className="relative overflow-hidden rounded-[2rem] border border-slate-200 bg-white px-8 py-10 shadow-xl shadow-slate-900/5">
+          <div>
             <div className="absolute -right-8 -top-8 h-36 w-36 rounded-full bg-slate-200/80 blur-3xl" />
             <div className="relative mx-auto h-[420px] w-full max-w-[520px]">
               <Image src={heroImg} alt="Ilustração professor e aluno" fill className="object-contain" />
