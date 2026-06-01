@@ -4,10 +4,10 @@ import { useState, useEffect } from 'react';
 import { showCreatedSuccess } from '@/lib/swal';
 
 const inputClass =
-  'w-full rounded-xl border border-slate-200 bg-slate-50 p-3 outline-none transition focus:border-slate-400 focus:ring-2 focus:ring-slate-800/20';
+  'w-full border border-slate-800 bg-slate-50 p-3 outline-none transition focus:border-slate-400 focus:ring-2 focus:ring-slate-800/20';
 
 export default function CriarAtividadePage() {
-  const [usuarios, setUsuarios] = useState<any[]>([]);
+  const [usuarios, setUsuarios] = useState<[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { showCreatedSuccess } from '@/lib/swal';
 
 export default function UsuariosPage() {
-  const [usuarios, setUsuarios] = useState<any[]>([]);
+  const [usuarios, setUsuarios] = useState<[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [nameUser, setNameUser] = useState('');
@@ -112,7 +112,7 @@ export default function UsuariosPage() {
               </label>
               <input
                 type="text"
-                className="w-full border border-slate-200 bg-slate-50 p-3 outline-none transition focus:border-slate-700 "
+                className="w-full border border-slate-800 bg-slate-50 p-3 outline-none transition focus:border-slate-700 "
                 placeholder="Digite o nome do usuário"
                 value={nameUser}
                 onChange={e => setNameUser(e.target.value)}
@@ -126,7 +126,7 @@ export default function UsuariosPage() {
               </label>
               <input
                 type="text"
-                className="w-full border border-slate-200 bg-slate-50 p-3 outline-none transition focus:border-slate-700 "
+                className="w-full border border-slate-800 bg-slate-50 p-3 outline-none transition focus:border-slate-700 "
                 placeholder="Ex: Matemática, Português"
                 value={materiaUser}
                 onChange={e => setMateriaUser(e.target.value)}

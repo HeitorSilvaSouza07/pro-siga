@@ -150,7 +150,7 @@ export default function VerAtividadesPage() {
                       </td>
                       <td className="px-6 py-4">
                         <span
-                          className={`inline-flex items-center px-3 py-1 text-xs font-semibold ${
+                          className={`inline-flex items-center border px-3 py-1 text-xs font-semibold ${
                             atv.typeAtv
                               ? 'bg-amber-100 text-amber-900'
                               : 'bg-emerald-100 text-emerald-900'
