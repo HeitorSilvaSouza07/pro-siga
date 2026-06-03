@@ -1,36 +1,84 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+📚 Sistema de Gerenciamento Escolar
+Sobre o Projeto
 
-## Getting Started
+Este projeto consiste em um sistema de gerenciamento escolar desenvolvido com Next.js e TypeORM, como parte de um Projeto Interdisciplinar acadêmico.
 
-First, run the development server:
+A aplicação implementa operações de CRUD (Create, Read, Update e Delete) para gerenciamento de informações escolares, permitindo o cadastro, consulta, atualização e remoção de registros em um banco de dados PostgreSQL.
 
-```bash
+O principal objetivo é demonstrar a aplicação prática dos conceitos estudados durante a graduação, incluindo desenvolvimento web full stack, persistência de dados, integração com banco de dados relacional e implantação em ambiente de produção.
+
+Tecnologias Utilizadas
+Desenvolvimento
+Next.js
+React
+TypeScript
+Banco de Dados
+PostgreSQL
+TypeORM
+Infraestrutura
+Neon PostgreSQL
+Vercel
+Funcionalidades
+Cadastro de registros escolares
+Consulta e listagem de dados
+Atualização de informações
+Exclusão de registros
+Persistência de dados em PostgreSQL
+Interface web responsiva
+Arquitetura
+
+O projeto segue uma arquitetura organizada baseada na separação de responsabilidades:
+
+src/
+├── app/
+├── components/
+├── controllers/
+├── services/
+├── entities/
+├── database/
+├── types/
+└── utils/
+Instalação
+1. Clonar o repositório
+git clone <url-do-repositorio>
+cd projeto-gerenciamento-escolar
+2. Instalar as dependências
+npm install
+3. Configurar as variáveis de ambiente
+
+Crie um arquivo .env.local:
+
+DATABASE_URL=postgresql://usuario:senha@host/database
+4. Executar o projeto
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+A aplicação estará disponível em:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+http://localhost:3000
+Deploy
+Aplicação
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+O deploy da aplicação é realizado através da plataforma Vercel.
 
-## Learn More
+Banco de Dados
 
-To learn more about Next.js, take a look at the following resources:
+O banco PostgreSQL está hospedado na plataforma Neon.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Objetivo Acadêmico
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Este projeto foi desenvolvido exclusivamente para fins acadêmicos, visando a aplicação prática dos conhecimentos adquiridos ao longo do curso, especialmente nos temas:
 
-## Deploy on Vercel
+Desenvolvimento Web com Next.js
+TypeScript
+Banco de Dados Relacional
+ORM (TypeORM)
+Arquitetura de Software
+CRUD e Persistência de Dados
+Deploy em Ambiente de Produção
+Considerações Finais
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Por se tratar de um MVP acadêmico, o foco principal está na implementação das funcionalidades essenciais e na demonstração dos conceitos técnicos envolvidos no desenvolvimento de aplicações web modernas.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Autor
+
+Desenvolvido para o Projeto Interdisciplinar do curso de Desenvolvimento de Software. 👨‍💻
