@@ -54,9 +54,7 @@ npm run dev
 
 A aplicação estará disponível em:
 
-[[[[http://localhost:3000](https://pro-siga.vercel.app/)
-Deploy
-Aplicação](https://pro-siga.vercel.app/)](https://pro-siga.vercel.app/)](https://pro-siga.vercel.app/)
+https://pro-siga.vercel.app/
 
 O deploy da aplicação é realizado através da plataforma Vercel.
 
